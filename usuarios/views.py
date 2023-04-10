@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.messages import constants
 from django.urls import reverse
 from django.contrib import auth
+import re
 
 # Create your views here.
 def cadastro(request):
@@ -16,13 +17,20 @@ def cadastro(request):
         senha = request.POST.get('senha')
         confirm_senha = request.POST.get('confirmar_senha')
         
+        if not (re.search(r'.{6,}', senha) and   
+            re.search(r'[A-Z]', senha) and 
+            re.search(r'\d', senha) and   
+            re.search(r'[!@#$%¨&*]', senha)):  
+            messages.add_message(request, constants.ERROR, 'Sua senha é fraca demais')
+            return redirect(reverse(cadastro))
+
+        
         if not senha == confirm_senha:
             messages.add_message(request, constants.ERROR, 'As senhas não são iguais')
             return redirect(reverse(cadastro))
             
         
-        
-        # Adicionar verificação de senha
+    
         
         user = User.objects.filter(username=username)
         if user.exists():
