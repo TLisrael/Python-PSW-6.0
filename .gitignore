@@ -1,10 +1,2 @@
-type_event/__pycache__
 venv
-venv/bin
-venv/include
-venv/lib
-venv/lib64
-venv/lib/python3.8
-venv/lib/python3.8/site-packages
 usuarios/__pycache__
-usuarios/migrations/__pycache__
