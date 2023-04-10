@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, request
 
 # Create your views here.
@@ -9,7 +9,8 @@ def cadastro(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         senha = request.POST.get('senha')
-        confirm_senha = request.POST.get('senha')
+        confirm_senha = request.POST.get('confirmar_senha')
         
-        
-        return HttpResponse('Teste')
+        if not senha == confirm_senha:
+            return redirect('/usuarios/cadastro')
+    return HttpResponse('Teste')
