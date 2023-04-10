@@ -1,2 +1,4 @@
 venv
 usuarios/__pycache__
+eventos/__pycache__
+eventos/migrations/__pycache__
