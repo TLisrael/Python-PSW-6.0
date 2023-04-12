@@ -19,13 +19,15 @@
                 <h5>{{evento.descricao}}</h5>
                 <br>
                 <p>{{evento.data_inicio}} a {{evento.data_termino}}</p>
+
                 {% if request.user in evento.participantes.all %}
-                    <input style="border-color: green;" type="submit" class="btn-principal" value="JÁ ESTÁ PARTICIPANDO" disabled>
-                {% else%}
-                    <form action="{% url 'inscrever_evento' evento.id %}" method="POST">{% csrf_token %}
-                        <input type="submit" class="btn-principal" value="QUERO PARTICIPAR">
-                    </form>
-{% endif %}      
+                <input style="border-color: green;" type="submit" class="btn-principal" value="JÁ ESTÁ PARTICIPANDO" disabled>
+            {% else%}
+                <form action="{% url 'inscrever_evento' evento.id %}" method="POST">{% csrf_token %}
+                    <input type="submit" class="btn-principal" value="QUERO PARTICIPAR">
+                </form>
+            {% endif %}
+                
             </div>
         </div>
     </div>
