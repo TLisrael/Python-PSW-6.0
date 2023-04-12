@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from . models import Evento
@@ -43,13 +43,22 @@ def novo_evento(request):
                              'Evento cadastrado com sucesso')
         return redirect(reverse('novo_evento'))
 
-
+@login_required
 def gerenciar_evento(request):
     if request.method == 'GET':
         eventos = Evento.objects.filter(criador=request.user)
+        # ToDo: Realizar filtro de  data
+        
         # Filtro
         nome = request.GET.get('nome')
         if nome:
             # Filtrando caso o nome do evento um valor
             eventos = Evento.objects.filter(nome__contains=nome)
         return render(request, 'gerenciar_evento.html', {'eventos': eventos})
+
+@login_required
+def inscrever_evento(request, id):
+    # Validação do login
+    evento = get_object_or_404(Evento, id=id)
+    if request.method == 'GET':
+        return render(request, 'inscrever_evento.html', {'evento': evento})
