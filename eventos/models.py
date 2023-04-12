@@ -11,6 +11,8 @@ class Evento(models.Model):
     carga_horaria = models.IntegerField()
     logo = models.ImageField(upload_to="logos")
     
+    participantes = models.ManyToManyField(User, related_name='evento_participante', blank=True, null=True)
+    
     # paleta de cores 
     cor_principal = models.CharField(max_length=7)
     cor_secundaria = models.CharField(max_length=7)

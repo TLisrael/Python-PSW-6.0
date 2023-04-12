@@ -62,3 +62,10 @@ def inscrever_evento(request, id):
     evento = get_object_or_404(Evento, id=id)
     if request.method == 'GET':
         return render(request, 'inscrever_evento.html', {'evento': evento})
+    elif request.method == 'POST':
+        # Validando se o usuário já é participante
+        evento.participantes.add(request.user)
+        evento.save()
+        
+        messages.add_message(request, constants.SUCCESS, 'Inscrito com sucesso!')
+        return redirect(reverse('inscrever_evento', kwargs={'id': id}))
