@@ -7,6 +7,7 @@ from django.contrib.messages import constants
 
 # Create your views here.
 
+
 @login_required
 def novo_evento(request):
     if request.method == "GET":
@@ -21,9 +22,9 @@ def novo_evento(request):
         cor_principal = request.POST.get('cor_principal')
         cor_secundaria = request.POST.get('cor_secundaria')
         cor_fundo = request.POST.get('cor_fundo')
-        
+
         logo = request.FILES.get('logo')
-        
+
         evento = Evento(
             criador=request.user,
             nome=nome,
@@ -36,7 +37,19 @@ def novo_evento(request):
             cor_fundo=cor_fundo,
             logo=logo,
         )
-        
+
         evento.save()
-        messages.add_message(request, constants.SUCCESS, 'Evento cadastrado com sucesso')
+        messages.add_message(request, constants.SUCCESS,
+                             'Evento cadastrado com sucesso')
         return redirect(reverse('novo_evento'))
+
+
+def gerenciar_evento(request):
+    if request.method == 'GET':
+        eventos = Evento.objects.filter(criador=request.user)
+        # Filtro
+        nome = request.GET.get('nome')
+        if nome:
+            # Filtrando caso o nome do evento um valor
+            eventos = Evento.objects.filter(nome__contains=nome)
+        return render(request, 'gerenciar_evento.html', {'eventos': eventos})
